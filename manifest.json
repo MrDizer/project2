@@ -1,7 +1,7 @@
 {
   "name": "Звёздный Ветер",
   "short_name": "Космотуры",
-  "start_url": "/project2",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4CAF50",
