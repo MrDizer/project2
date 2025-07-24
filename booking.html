@@ -1,0 +1,165 @@
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Звёздный Ветер - Бронирование</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        .message {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        form label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="tel"],
+        form input[type="date"],
+        form input[type="number"],
+        form select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .radio-group {
+            margin: 10px 0;
+        }
+        
+        .radio-group label {
+            display: inline-block;
+            margin-right: 15px;
+            font-weight: normal;
+        }
+        
+        form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        
+        form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4CAF50">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
+</head>
+<body>
+    <header>
+        <img src="logo.png" width="80" align="middle">
+        <h1 align="center">Звёздный Ветер</h1>
+        <p align="center">Космические путешествия будущего</p>
+    </header>
+    <div id="content">
+        <div id="article">
+            <h2>Забронируйте свой полёт!</h2>
+            
+            <?php if (!empty($message)): ?>
+                <div class="message <?php echo $message_class; ?>">
+                    <?php echo $message; ?>
+                </div>
+            <?php endif; ?>
+            
+            <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <label for="tour">Выберите тур:</label>
+                <select id="tour" name="tour" required>
+                    <option value="">-- Выберите тур --</option>
+                    <option value="Лунное сафари (5 дней)">Лунное сафари (5 дней)</option>
+                    <option value="Марсианские каникулы (7 дней)">Марсианские каникулы (7 дней)</option>
+                    <option value="Юпитерский вояж (14 дней)">Юпитерский вояж (14 дней)</option>
+                </select>
+                
+                <label for="date">Дата вылета:</label>
+                <input type="date" id="date" name="date" required>
+                
+                <label for="passengers">Количество пассажиров:</label>
+                <input type="number" id="passengers" name="passengers" min="1" max="10" value="1" required>
+                
+                <label>Класс корабля:</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="ship_class" value="Люкс" required> Люкс
+                    </label>
+                    <label>
+                        <input type="radio" name="ship_class" value="Стандарт" checked> Стандарт
+                    </label>
+                    <label>
+                        <input type="radio" name="ship_class" value="Эконом"> Эконом
+                    </label>
+                </div>
+                
+                <label>Ваши данные:</label>
+                <label for="first_name">Имя:</label>
+                <input type="text" id="first_name" name="first_name" required>
+                
+                <label for="last_name">Фамилия:</label>
+                <input type="text" id="last_name" name="last_name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="phone">Телефон:</label>
+                <input type="tel" id="phone" name="phone" required>
+                
+                <label>
+                    <input type="checkbox" required> Я согласен с условиями космического полёта
+                </label>
+                
+                <input type="submit" value="Забронировать полёт!">
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            const formattedDate = tomorrow.toISOString().split('T')[0];
+            document.getElementById('date').min = formattedDate;
+            
+            const nextWeek = new Date(tomorrow);
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            const formattedNextWeek = nextWeek.toISOString().split('T')[0];
+            document.getElementById('date').value = formattedNextWeek;
+        });
+    </script>
+</body>
+</html>
